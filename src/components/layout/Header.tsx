@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { Instagram, Facebook } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useSession, signOut, signIn } from 'next-auth/react'
@@ -232,19 +233,43 @@ export function Header() {
                     Iniciar Sesión
                   </motion.button>
                 )}
-                <motion.div 
+                <motion.div
                    initial={{ x: -20, opacity: 0 }}
                    animate={{ x: 0, opacity: 1 }}
                    transition={{ delay: 0.3 }}
-                   className="pt-4"
+                   className="pt-4 space-y-6"
                 >
-                   <Button 
+                   <Button
                     size="lg"
                     className="w-full text-lg h-14 bg-teal-600 hover:bg-teal-700 text-white shadow-xl shadow-teal-500/20 rounded-2xl"
                     onClick={() => scrollToSection('booking')}
                   >
                     Agendá tu Sesión
                   </Button>
+
+                  <div className="flex flex-col items-center gap-3 pt-2">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">Seguilo en redes</span>
+                    <div className="flex gap-3">
+                      <a
+                        href="https://www.instagram.com/fedecolella.fisio"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                        className="inline-flex items-center justify-center h-12 w-12 rounded-full border border-neutral-700/50 bg-neutral-900/40 text-neutral-300 hover:text-white hover:border-pink-500/60 hover:bg-gradient-to-br hover:from-pink-500/15 hover:via-purple-500/15 hover:to-orange-400/15 transition-all"
+                      >
+                        <Instagram className="w-5 h-5" />
+                      </a>
+                      <a
+                        href="https://www.facebook.com/share/1G5NYBDEh6/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Facebook"
+                        className="inline-flex items-center justify-center h-12 w-12 rounded-full border border-neutral-700/50 bg-neutral-900/40 text-neutral-300 hover:text-white hover:border-blue-500/60 hover:bg-blue-500/15 transition-all"
+                      >
+                        <Facebook className="w-5 h-5" />
+                      </a>
+                    </div>
+                  </div>
                 </motion.div>
              </nav>
           </motion.div>
