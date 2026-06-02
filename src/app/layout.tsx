@@ -23,15 +23,11 @@ export const metadata: Metadata = {
   description: "Kinesiología Deportiva de Alto Rendimiento. Recuperación de lesiones y optimización del movimiento.",
   manifest: '/manifest.json',
   themeColor: '#0d9488',
-  icons: {
-    icon: [
-      { url: '/assets/logo/logo_sin_matricula_sobre_color.jpg', type: 'image/jpeg' },
-    ],
-    apple: [
-      { url: '/assets/logo/logo_sin_matricula_sobre_color.jpg', sizes: '180x180', type: 'image/jpeg' },
-    ],
-    shortcut: '/assets/logo/logo_sin_matricula_sobre_color.jpg',
-  },
+  // Los íconos los maneja Next por convención de archivos:
+  //   src/app/favicon.ico  → favicon de la pestaña
+  //   src/app/icon.png     → ícono general (512x512, iso de Federico Colella)
+  //   src/app/apple-icon.png → ícono iOS (180x180)
+  // No declaramos metadata.icons para no pisar esas convenciones.
   appleWebApp: {
     capable: true,
     title: 'Fede Colella',
