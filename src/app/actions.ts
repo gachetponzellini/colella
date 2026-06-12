@@ -404,6 +404,26 @@ export async function bookAppointment(formData: FormData) {
         throw new Error('DATE_BLOCKED')
       }
 
+      // Dedup cross-canal: si ya existe una ficha de Telegram (usr_tg_) con este
+      // teléfono, la consolidamos en la cuenta del paciente (movemos sus turnos y
+      // borramos el duplicado), así no quedan dos fichas de la misma persona.
+      const last10 = phone.replace(/\D/g, '').slice(-10)
+      if (last10.length === 10) {
+        const tgDup: { id: string }[] = await tx.$queryRaw`
+          SELECT id FROM "User"
+          WHERE id LIKE 'usr_tg_%'
+            AND RIGHT("phoneNumber", 10) = ${last10}
+            AND id <> ${userId}
+          LIMIT 1`
+        if (tgDup.length > 0) {
+          const dupId = tgDup[0].id
+          await tx.appointment.updateMany({ where: { patientId: dupId }, data: { patientId: userId } })
+          await tx.recurringSlot.updateMany({ where: { patientId: dupId }, data: { patientId: userId } })
+          await tx.enrollment.updateMany({ where: { userId: dupId }, data: { userId } })
+          await tx.user.delete({ where: { id: dupId } })
+        }
+      }
+
       try {
         await tx.user.update({
           where: { id: userId },
